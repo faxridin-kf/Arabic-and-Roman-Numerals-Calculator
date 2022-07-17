@@ -61,15 +61,20 @@ function canculate(str) {
   });
   if (data.length > 0) throw Error("Недопустимые символы, введено это:" + data);
   let operators = str.split(/[+\-*\/]/g);
-  if (operators.length !== 2) throw Error("Должно быть два операнда");
+  if (operators.length !== 2)
+    throw Error("строка не является математической операцией");
   const rome = /[IXMCVZLD]/i;
   const r = operators.reduce((s, v) => s + rome.test(v), 0);
-  if (r === 1) throw Error("должны быть арабские или римские цифры");
+  if (r === 1)
+    throw Error("используются одновременно разные системы счисления");
   else if (r === 2) operators = operators.map((v) => romToArab(v));
-  if (operators.some((v) => v < 1 || v > 3000))
+  if (operators.some((i) => i < 1 || i > 3000))
     throw Error("Только числа от 1 до 3000");
   let acr = str.match(/[+\-*\/]/)[0];
   let res = Math.floor(eval(operators.join(acr)));
+  // if (operators - operators == -res)
+  //   throw Error("в римской системе нет отрицательных чисел");
+
   console.log(res);
   if (r === 0) {
     return res.toLocaleString();
